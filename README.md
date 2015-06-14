@@ -1,4 +1,4 @@
-## electron-player
+## electron-music-player
 
 Shuffle and play tracks from your local music library.
 
@@ -13,8 +13,8 @@ $ npm install -g electron-prebuilt
 Run the player:
 
 ```sh
-$ git clone https://github.com/stephenkubovic/electron-player
-$ cd electron-player
+$ git clone https://github.com/stephenkubovic/electron-music-player
+$ cd electron-music-player
 $ npm install
 $ npm start
 ```
