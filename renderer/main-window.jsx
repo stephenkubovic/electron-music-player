@@ -5,6 +5,14 @@ import fs from 'fs'
 import path from 'path'
 import {shuffle} from 'lodash'
 
+let mainWindowStyle = {
+  width: '100%',
+  height: '100%',
+  padding: 0,
+  margin: 0,
+  textAlign: 'center'
+}
+
 export default React.createClass({
   displayName: 'MainWindow',
   getInitialState () {
@@ -64,10 +72,9 @@ export default React.createClass({
   },
   render () {
     return (
-      <div onKeyUp={this.handleKeyUp}>
-        <p>Main Window</p>
-        <DirectorySelector onChange={this.handleDirectoryChange} />
+      <div onKeyUp={this.handleKeyUp} style={mainWindowStyle}>
         <Player source={this.state.source} onEnd={this.handlePlayerEnd} next={this.handleNextTrack} prev={this.handlePreviousTrack} />
+        <DirectorySelector onChange={this.handleDirectoryChange} />
       </div>
     )
   }

@@ -17,25 +17,23 @@ export default () => {
 
     mainWindow.loadUrl(`file://${filepath}`)
 
-    mainWindow.openDevTools()
-
     mainWindow.on('closed', () => {
       mainWindow = null
     })
-  })
 
-  ipc.on('dialog', (e) => {
-    dialog.showOpenDialog({properties: ['openDirectory']}, (filenames) => {
-      if (!filenames || !filenames.length) return
-      e.sender.send('directory', filenames[0])
+    ipc.on('dialog', (e) => {
+      dialog.showOpenDialog(mainWindow, {properties: ['openDirectory']}, (filenames) => {
+        if (!filenames || !filenames.length) return
+        e.sender.send('directory', filenames[0])
+      })
     })
-  })
 
-  ipc.on('mediaInfo', (e, filepath) => {
-    tags(filepath, (err, tags) => {
-      if (!err) {
-        e.sender.send('mediaInfo', tags)
-      }
+    ipc.on('mediaInfo', (e, filepath) => {
+      tags(filepath, (err, tags) => {
+        if (!err) {
+          e.sender.send('mediaInfo', tags)
+        }
+      })
     })
   })
 }
