@@ -1,6 +1,10 @@
 import React from 'react'
 import ipc from 'ipc'
 
+let divStyle = {
+  fontSize: '30px'
+}
+
 export default React.createClass({
   displayName: 'MediaInfo',
   propTypes: {
@@ -26,8 +30,8 @@ export default React.createClass({
   render () {
     if (this.state.info) {
       return (
-        <div>
-          <p><strong>{this.state.info.title}</strong> - {this.state.info.artistName}</p>
+        <div style={divStyle}>
+          <p><strong>{this.state.info.title}</strong> &mdash; {this.state.info.artistName}</p>
           <p><em>{this.state.info.albumName} ({this.state.info.year})</em></p>
         </div>
       )

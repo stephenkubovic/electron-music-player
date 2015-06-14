@@ -6,13 +6,14 @@ import AudioPlayer from './audio-player.jsx'
 let playerStyle = {
   width: '100%',
   position: 'absolute',
-  top: '40%'
+  top: '30%'
 }
 
 let playPauseStyle = {
   fontSize: '60px',
   display: 'block',
-  cursor: 'pointer'
+  cursor: 'pointer',
+  paddingBottom: '20px'
 }
 
 let timerStyle = {
