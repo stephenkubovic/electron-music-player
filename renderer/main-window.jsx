@@ -1,7 +1,6 @@
 import React from 'react'
 import DirectorySelector from './directory-selector.jsx'
 import Player from './player.jsx'
-import fs from 'fs'
 import path from 'path'
 import {shuffle} from 'lodash'
 import {files as recursiveFiles} from 'node-dir'
