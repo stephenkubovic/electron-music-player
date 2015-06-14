@@ -4,10 +4,20 @@ import MediaInfo from './media-info.jsx'
 import AudioPlayer from './audio-player.jsx'
 
 let playerStyle = {
-  backgroundColor: '#76C7D7',
   width: '100%',
-  height: '100%',
-  position: 'relative'
+  position: 'absolute',
+  top: '40%'
+}
+
+let playPauseStyle = {
+  fontSize: '60px',
+  display: 'block',
+  cursor: 'pointer'
+}
+
+let timerStyle = {
+  fontSize: '60px',
+  display: 'block'
 }
 
 function formatTime (totalSeconds) {
@@ -83,8 +93,8 @@ export default React.createClass({
       return (
         <div style={playerStyle}>
           <AudioPlayer source={this.props.source} onTimeUpdate={this.handleTimeUpdate} isPlaying={this.state.isPlaying} onEnd={this.props.onEnd} />
-          <span>{this.state.currentTime} / {this.state.trackDuration}</span>
-          <i className={'fa ' + this.state.className} onClick={this.handlePauseOrPlay}/>
+          <i style={playPauseStyle} className={'fa ' + this.state.className} onClick={this.handlePauseOrPlay}/>
+          <span style={timerStyle}>{this.state.currentTime} / {this.state.trackDuration}</span>
           <MediaInfo media={this.props.source} />
         </div>
       )
