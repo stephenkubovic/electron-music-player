@@ -72,6 +72,12 @@ export default React.createClass({
     })
   },
 
+  componentWillReceiveProps (nextProps) {
+    if (this.props.source !== nextProps.source) {
+      this.play()
+    }
+  },
+
   handlePauseOrPlay () {
     if (this.state.isPlaying) {
       this.pause()
