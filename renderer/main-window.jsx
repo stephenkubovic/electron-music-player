@@ -4,6 +4,7 @@ import Player from './player.jsx'
 import fs from 'fs'
 import path from 'path'
 import {shuffle} from 'lodash'
+import {files as recursiveFiles} from 'node-dir'
 
 let mainWindowStyle = {
   width: '100%',
@@ -22,7 +23,7 @@ export default React.createClass({
     return ['m4a', 'mp3'].includes(path.extname(filepath).substring(1))
   },
   loadMediaFiles (directory, callback) {
-    fs.readdir(directory, (err, files) => {
+    recursiveFiles(directory, (err, files) => {
       if (err || !files) return callback(err)
 
       let media = files.filter(this.isPlayableMedia).map((file) => {
