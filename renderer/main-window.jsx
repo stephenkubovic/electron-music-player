@@ -1,37 +1,73 @@
 import React from 'react'
-import AddressBar from './address-bar.jsx'
+import DirectorySelector from './directory-selector.jsx'
 import Player from './player.jsx'
 import fs from 'fs'
 import path from 'path'
-import {random} from 'lodash'
+import {shuffle} from 'lodash'
 
 export default React.createClass({
   displayName: 'MainWindow',
   getInitialState () {
-    return {source: ''}
+    return {source: '', playlist: [], playlistIndex: 0}
   },
-  getMediaFiles (directory, callback) {
+  isPlayableMedia (filepath) {
+    return ['m4a', 'mp3'].includes(path.extname(filepath).substring(1))
+  },
+  loadMediaFiles (directory, callback) {
     fs.readdir(directory, (err, files) => {
-      if (err || !files) return callback([])
+      if (err || !files) return callback(err)
 
-      callback(files.filter((file) => {
-        return ['m4a', 'mp3'].includes(path.extname(file).substring(1))
-      }).map((file) => {
+      let media = files.filter(this.isPlayableMedia).map((file) => {
         return path.resolve(directory, file)
-      }))
+      })
+
+      callback(null, media)
     })
   },
-  handleAddressBarChange (value) {
-    this.getMediaFiles(value, (files) => {
-      this.setState({source: files[random(0, files.length - 1)]})
+  createPlaylist (filepaths) {
+    this.setState({playlist: shuffle(filepaths), playlistIndex: 0})
+  },
+  selectNextTrack () {
+    let index = this.state.playlistIndex + 1
+
+    if (index === this.state.playlist.length) {
+      index = 0
+    }
+
+    this.setState({ source: this.state.playlist[index], playlistIndex: index })
+  },
+  selectPreviousTrack () {
+    let index = this.state.playlistIndex - 1
+
+    if (index < 0) {
+      index = this.state.playlist.length - 1
+    }
+
+    this.setState({ source: this.state.playlist[index], playlistIndex: index })
+  },
+  handleDirectoryChange (directory) {
+    this.loadMediaFiles(directory, (err, files) => {
+      if (!err && files) {
+        this.createPlaylist(files)
+        this.selectNextTrack()
+      }
     })
+  },
+  handleNextTrack () {
+    this.selectNextTrack()
+  },
+  handlePreviousTrack () {
+    this.selectPreviousTrack()
+  },
+  handlePlayerEnd () {
+    this.selectNextTrack()
   },
   render () {
     return (
-      <div>
+      <div onKeyUp={this.handleKeyUp}>
         <p>Main Window</p>
-        <AddressBar onChange={this.handleAddressBarChange} />
-        <Player source={this.state.source} />
+        <DirectorySelector onChange={this.handleDirectoryChange} />
+        <Player source={this.state.source} onEnd={this.handlePlayerEnd} next={this.handleNextTrack} prev={this.handlePreviousTrack} />
       </div>
     )
   }

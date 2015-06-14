@@ -4,7 +4,10 @@
     "babel": "^5.5.7"
   },
   "dependencies": {
+    "id3js": "^1.1.3",
+    "keymaster": "^1.6.2",
     "lodash": "^3.9.3",
+    "mp4js": "0.0.2",
     "react": "^0.13.3"
   }
 }

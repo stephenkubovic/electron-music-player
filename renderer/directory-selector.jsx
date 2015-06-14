@@ -2,7 +2,7 @@ import React from 'react'
 import ipc from 'ipc'
 
 export default React.createClass({
-  displayName: 'AddressBar',
+  displayName: 'DirectorySelector',
   propTypes: {
     onChange: React.PropTypes.func
   },

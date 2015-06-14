@@ -2,6 +2,7 @@ import app from 'app'
 import BrowserWindow from 'browser-window'
 import ipc from 'ipc'
 import dialog from 'dialog'
+import {tags} from './lib/media'
 
 export default () => {
   app.on('window-all-closed', () => {
@@ -16,17 +17,25 @@ export default () => {
 
     mainWindow.loadUrl(`file://${filepath}`)
 
-    // mainWindow.openDevTools()
+    mainWindow.openDevTools()
 
     mainWindow.on('closed', () => {
       mainWindow = null
     })
   })
 
-  ipc.on('dialog', (event) => {
+  ipc.on('dialog', (e) => {
     dialog.showOpenDialog({properties: ['openDirectory']}, (filenames) => {
       if (!filenames || !filenames.length) return
-      event.sender.send('directory', filenames[0])
+      e.sender.send('directory', filenames[0])
+    })
+  })
+
+  ipc.on('mediaInfo', (e, filepath) => {
+    tags(filepath, (err, tags) => {
+      if (!err) {
+        e.sender.send('mediaInfo', tags)
+      }
     })
   })
 }
